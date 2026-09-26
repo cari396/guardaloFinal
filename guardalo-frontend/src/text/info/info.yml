@@ -1,0 +1,24 @@
+sectionIntro:
+  title: '¿Quiénes somos?'
+  body:
+    - Guardalo.com se encarga de que tu espacio no tenga limites. Tenemos presente que cada empresa o persona requiere de diferentes soluciones, y es por esto que nuestros espacios se adaptan a tus necesidades.
+    - Te ofrecemos el espacios que sirven para guardar herramientas, mercadería de todo tipo, e incluso para dejar tus pertenencias durante una mudanza o mientras pintás una habitación. Si tenés que guardar un vehículo o te gusta coleccionar objetos, tenemos el lugar para tus cosas.
+
+sectionOfferings:
+  title: '¿Qué te ofrecemos?'
+  items:
+    - title: Tamaño de unidades
+      body: Las unidades tienen 8.3 , 13.75 y 20,5 m², para que puedas guardar todas tus pertenencias.
+      icon: size
+    - title: Sistema de seguridad
+      body: Único en el país, con monitoreo permanente para que no tengas que preocuparte
+      icon: camera
+    - title: Acceso automático
+      body: Podes acceder a tu unidad las 24 horas los 7 días de la semana utilizando un código personal
+      icon: time
+    - title: Facilidad y flexibilidad
+      body: Se contrata de forma instantánea y online por el tiempo que necesites, con un periodo mínimo de un mes
+      icon: ease
+    - title: Múltiples medios de pago
+      body: 'Aceptamos múltiples formas de pago: transferencia bancaria, débito en cuenta, link de pago y MercadoPago'
+      icon: payment

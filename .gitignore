@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+*/node_modules/
+vendor/
+*/vendor/
+
+# Build caches & outputs
+.cache/
+*/.cache/
+public/
+*/public/
+
+# Large archives and deploy bundles
+*.zip
+DESPLIEGUE_HOSTINGER_STAGING/
+
+# Git backups
+.git_*_bak/
+*/.git_*_bak/
+
+# Environment files
+.env
+.env.backup
+.env.local
+
+# Logs and OS files
+*.log
+*/storage/logs/*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db

@@ -1,0 +1,13 @@
+title: Contacto
+contactText: 'Si tenes alguna duda o te gustaría alquilar una unidad, escribínos por WhatsApp, llamános por teléfono, o enviános un correo electrónico'
+formText: 'También podes usar el siguiente formulario para enviarnos un mensaje y te vamos a contestar via email:'
+contactItems:
+  - icon: email
+    text: contacto@guardalo.com.ar
+    url: mailto:contacto@guardalo.com.ar
+  - icon: phone
+    text: '+54 9 2346 691234'
+    url: https://api.whatsapp.com/send?phone=5492346691234
+  - icon: phone
+    text: '+54 9 2346 577775'
+    url: https://api.whatsapp.com/send?phone=5492346577775

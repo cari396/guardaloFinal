@@ -1,0 +1,100 @@
+title: 'Precios'
+body: 'En esta página se encuentran los precios y promociones vigentes.'
+prices:
+  - key: 1
+    text: '1 día'
+    price: 3650
+
+  - key: 3
+    text: '3 días'
+    price: 6090
+
+  - key: 7
+    text: '7 días'
+    price: 13700
+
+  - key: 15
+    text: '15 días'
+    price: 22850
+
+  - key: 30
+    text: '30 días'
+    price: 36500
+
+  - key: 90
+    text: '90 días'
+    price: 109500
+    promo: '+10 días'
+    promo_long: 'Se añaden al plazo contratado 10 días bonificados'
+
+  - key: 180
+    text: '180 días'
+    price: 219000
+    promo: '+30 días'
+    promo_long: 'Se añaden al plazo contratado 30 días bonificados'
+
+prices2:
+  - key: 1
+    text: '1 día'
+    price: 6000
+
+  - key: 3
+    text: '3 días'
+    price: 10000
+
+  - key: 7
+    text: '7 días'
+    price: 22500
+
+  - key: 15
+    text: '15 días'
+    price: 26250
+
+  - key: 30
+    text: '30 días'
+    price: 60000
+
+  - key: 100
+    text: '90 días'
+    price: 180000
+    promo: '+10 días'
+    promo_long: 'Se añaden al plazo contratado 10 días bonificados'
+
+  - key: 210
+    text: '180 días'
+    price: 360000
+    promo: '+30 días'
+    promo_long: 'Se añaden al plazo contratado 30 días bonificados'
+        
+prices3:
+  - key: 1
+    text: '1 día'
+    price: 9000
+
+  - key: 3
+    text: '3 días'
+    price: 15000
+
+  - key: 7
+    text: '7 días'
+    price: 33750
+
+  - key: 15
+    text: '15 días'
+    price: 56250
+
+  - key: 30
+    text: '30 días'
+    price: 90000
+
+  - key: 100
+    text: '90 días'
+    price: 270000
+    promo: '+10 días'
+    promo_long: 'Se añaden al plazo contratado 10 días bonificados'
+
+  - key: 210
+    text: '180 días'
+    price: 540000
+    promo: '+30 días'
+    promo_long: 'Se añaden al plazo contratado 30 días bonificados'

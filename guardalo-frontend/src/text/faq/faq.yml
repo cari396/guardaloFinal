@@ -1,0 +1,31 @@
+title: Preguntas frecuentes
+faq:
+  - key: acceso
+    question: '¿Cómo accedo a la unidad alquilada?'
+    answer: Podrás acceder con un código de seguridad, el cual permite abrir
+      el portón de ingreso además de desactivar la alarma de tu unidad alquilada. Además,
+      la unidad estará cerrada con tu candado y sólo vos tendras la llave.
+  - key: horarios
+    question: '¿En qué horarios puedo acceder?'
+    answer: Podés acceder durante las 24 horas, los 7 días de la semana.
+  - key: tiempo
+    question: '¿Por cuánto tiempo se puede alquilar una unidad?'
+    answer: Se puede alquilar una unidad o las unidades que necesites por el periodo mínimo de un día. No hay un periodo máximo.
+  - key: pago
+    question: '¿Cuáles son los medios de pago?'
+    answer: Se puede pagar con débito en cuenta, transferencia bancaria, link de pago o MercadoPago
+  - key: cosas
+    question: '¿Qué cosas se pueden guardar?'
+    answer:
+      Se pueden guardar todas las cosas que quieras, como muebles, objetos personales,
+      motos, autos, mercadería, etc, a excepción de artículos prohibidos por las leyes
+      o exceptuados en los términos y condiciones.
+  - key: capacidad
+    question: '¿Qué tamaño tienen las unidades?'
+    answer: 'La mayoría de las unidades miden 2,75 metros de ancho por 5 metros de largo
+      y 3 metros de altura. Capacidad: 41m³. Podés consultar por unidades más pequeñas
+      o más grandes.'
+  - key: precios
+    question: '¿Cuales son los precios?'
+    answer: 'El precio varia según el tiempo que se desee alquilar. Los precios y promociones vigentes se pueden consultar tanto en la página de alquiler como en la de precios.'
+
