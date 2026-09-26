@@ -128,6 +128,9 @@ const sendMessage = (data: FormFields, paymentInfo?: PaymentMethodData): AxiosPr
       if (paymentInfo.transferReference) {
         formData.append('transfer_reference', paymentInfo.transferReference)
       }
+      if (paymentInfo.receiptFile) {
+        formData.append('receipt_file', paymentInfo.receiptFile)
+      }
     } else {
       formData.append('payment', 'Mercado Pago')
     }

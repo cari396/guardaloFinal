@@ -62,7 +62,12 @@ class PaymentController extends Controller
             ], 422);
         }
 
-        $operationCode = $request->get('operation_code', '#OP-' . rand(1000, 9999));
+        $operationCode = $request->get('operation_code');
+        if (!$operationCode) {
+            do {
+                $operationCode = '#OP-' . mt_rand(100000, 999999);
+            } while (Operation::where('operation_code', $operationCode)->exists());
+        }
         $cleanOp = str_replace(['#', ' '], '', $operationCode);
 
         // Find operation if exists

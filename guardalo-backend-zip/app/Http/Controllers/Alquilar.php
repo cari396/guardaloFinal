@@ -256,8 +256,24 @@ class Alquilar extends Controller
             $paymentMethodLabel = 'Transferencia Bancaria';
         }
 
-        // 9. Crear la Operación / Contrato en Base de Datos
-        $operationCode = '#OP-' . rand(1000, 9999);
+        // 9. Crear la Operación / Contrato en Base de Datos (Código único a prueba de duplicados)
+        do {
+            $operationCode = '#OP-' . mt_rand(100000, 999999);
+        } while (Operation::where('operation_code', $operationCode)->exists());
+
+        $receiptPath = null;
+        if ($isTransfer && ($request->hasFile('receipt_file') || $request->hasFile('transfer_receipt'))) {
+            try {
+                $file = $request->file('receipt_file') ?: $request->file('transfer_receipt');
+                $cleanOp = str_replace('#', '', $operationCode);
+                $filename = 'comprobante_' . $cleanOp . '_' . time() . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs('comprobantes', $filename, 'public');
+                $receiptPath = '/storage/' . $path;
+            } catch (\Exception $e) {
+                Log::warning('No se pudo guardar archivo de comprobante: ' . $e->getMessage());
+            }
+        }
+
         $operationData = [
             'operation_code' => $operationCode,
             'user_id'        => $user->id,
@@ -284,6 +300,11 @@ class Alquilar extends Controller
                 $operationData['transfer_reference'] = $request->get('transfer_reference');
             }
             $operationData['notes'] .= " | Ref Transferencia: {$request->get('transfer_reference')}";
+        }
+
+        if ($receiptPath && Schema::hasColumn('operations', 'transfer_receipt_path')) {
+            $operationData['transfer_receipt_path'] = $receiptPath;
+            $operationData['notes'] .= " | Comprobante Adjunto: {$receiptPath}";
         }
 
         $operation = Operation::create($operationData);

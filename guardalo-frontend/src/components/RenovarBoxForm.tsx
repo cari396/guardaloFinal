@@ -291,15 +291,27 @@ const RenovarBoxForm: React.FC = () => {
       const token = typeof window !== 'undefined'
         ? localStorage.getItem('guardalo_token') || localStorage.getItem('guardalo_auth_token')
         : null
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-      }
+      const headers: Record<string, string> = {}
       if (token) {
         payload.auth_token = token
         headers['Authorization'] = `Bearer ${token}`
       }
 
-      const response = await axios.post(`${API_BASE_URL}/renovar`, payload, { headers })
+      let requestBody: any = payload
+      if (paymentData.receiptFile) {
+        const formData = new FormData()
+        Object.keys(payload).forEach((k) => {
+          if (payload[k] !== undefined && payload[k] !== null) {
+            formData.append(k, String(payload[k]))
+          }
+        })
+        formData.append('receipt_file', paymentData.receiptFile)
+        requestBody = formData
+      } else {
+        headers['Content-Type'] = 'application/json'
+      }
+
+      const response = await axios.post(`${API_BASE_URL}/renovar`, requestBody, { headers })
 
       if (response.data && response.data.success) {
         const mpInitPoint = response.data.mercadopago?.init_point

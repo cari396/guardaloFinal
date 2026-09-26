@@ -159,9 +159,26 @@ class RenovarController extends Controller
             $paymentMethodLabel = 'Transferencia Bancaria';
         }
 
-        // 6. Crear la Operación de Renovación en PostgreSQL
+        // 6. Crear la Operación de Renovación en Base de Datos (Código único a prueba de duplicados)
+        do {
+            $operationCode = '#REN-' . mt_rand(100000, 999999);
+        } while (Operation::where('operation_code', $operationCode)->exists());
+
+        $receiptPath = null;
+        if ($isTransfer && ($request->hasFile('receipt_file') || $request->hasFile('transfer_receipt'))) {
+            try {
+                $file = $request->file('receipt_file') ?: $request->file('transfer_receipt');
+                $cleanOp = str_replace('#', '', $operationCode);
+                $filename = 'comprobante_' . $cleanOp . '_' . time() . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs('comprobantes', $filename, 'public');
+                $receiptPath = '/storage/' . $path;
+            } catch (\Exception $e) {
+                \Log::warning('No se pudo guardar archivo de comprobante: ' . $e->getMessage());
+            }
+        }
+
         $operationData = [
-            'operation_code' => '#REN-' . rand(1000, 9999),
+            'operation_code' => $operationCode,
             'user_id'        => $user ? $user->id : ($lastOp ? $lastOp->user_id : 1),
             'box_id'         => $box->id,
             'start_date'     => $startDate->toDateString(),
@@ -186,6 +203,11 @@ class RenovarController extends Controller
                 $operationData['transfer_reference'] = $request->transfer_reference;
             }
             $operationData['notes'] .= " | Ref: {$request->transfer_reference}";
+        }
+
+        if ($receiptPath && Schema::hasColumn('operations', 'transfer_receipt_path')) {
+            $operationData['transfer_receipt_path'] = $receiptPath;
+            $operationData['notes'] .= " | Comprobante Adjunto: {$receiptPath}";
         }
 
         $operation = Operation::create($operationData);

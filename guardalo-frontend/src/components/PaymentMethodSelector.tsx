@@ -19,6 +19,7 @@ import { SiMercadopago } from 'react-icons/si'
 export interface PaymentMethodData {
   method: 'mercadopago' | 'transferencia'
   transferReference?: string
+  receiptFile?: File | null
 }
 
 interface PaymentMethodSelectorProps {
@@ -51,13 +52,15 @@ export const PaymentMethodSelector: React.FC<PaymentMethodSelectorProps> = ({
     value.method === 'transferencia' ? 'transferencia' : 'mercadopago'
 
   const [transferRef, setTransferRef] = useState(value.transferReference || '')
+  const [receiptFile, setReceiptFile] = useState<File | null>(value.receiptFile || null)
 
   useEffect(() => {
     onChange({
       method: currentMethod,
       transferReference: transferRef,
+      receiptFile: receiptFile,
     })
-  }, [currentMethod, transferRef])
+  }, [currentMethod, transferRef, receiptFile])
 
   const handleCopy = (text: string, label: string) => {
     if (typeof navigator !== 'undefined' && navigator.clipboard) {
@@ -270,6 +273,31 @@ export const PaymentMethodSelector: React.FC<PaymentMethodSelectorProps> = ({
               onChange={(e) => setTransferRef(e.target.value)}
               disabled={disabled}
             />
+          </FormControl>
+
+          <FormControl mt={3}>
+            <FormLabel fontSize="2xs" fontWeight="bold" color="#64748B" mb={1} textTransform="uppercase">
+              Adjuntar comprobante / foto o PDF (opcional):
+            </FormLabel>
+            <Input
+              type="file"
+              accept="image/png,image/jpeg,image/jpg,application/pdf"
+              size="sm"
+              p={1}
+              borderRadius="md"
+              borderColor="#CBD5E1"
+              bg="white"
+              onChange={(e) => {
+                const file = e.target.files && e.target.files[0] ? e.target.files[0] : null
+                setReceiptFile(file)
+              }}
+              disabled={disabled}
+            />
+            {receiptFile && (
+              <Text fontSize="2xs" color="green.600" mt={1} fontWeight="semibold">
+                ✓ Archivo seleccionado: {receiptFile.name} ({(receiptFile.size / 1024).toFixed(0)} KB)
+              </Text>
+            )}
           </FormControl>
         </Box>
       )}
