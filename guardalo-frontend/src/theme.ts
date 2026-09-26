@@ -27,11 +27,15 @@ const theme = extendTheme({
     text: '#626584',
     bg: '#F6FCFE',
     primary: '#1E3264',
-    green: '#3c7948',
-    gray: '#c8d5d9',
+    brandGreen: '#3c7948',
+    brandGray: '#c8d5d9',
     separator: 'rgba(162, 212, 227, 0.5)',
     white: '#ffffff',
     navBG: 'rgba(238, 251, 255, 0.98)',
+  },
+  config: {
+    initialColorMode: 'light',
+    useSystemColorMode: false,
   },
   layerStyles: {
     cta: {
@@ -66,22 +70,22 @@ const theme = extendTheme({
   },
   components: {
     Text: {
-      baseStyle: {
-        color: 'text',
-      },
+      baseStyle: (props: any) => ({
+        color: props.colorMode === 'dark' ? '#CBD5E1' : '#626584',
+      }),
     },
     Heading: {
-      baseStyle: {
-        color: 'primary',
-      },
+      baseStyle: (props: any) => ({
+        color: props.colorMode === 'dark' ? '#F8FAFC' : '#1E3264',
+      }),
     },
   },
   styles: {
-    global: {
+    global: (props: any) => ({
       'html, body': {
         width: '100%',
-        bg: 'bg',
-        zIndex: '-1',
+        bg: props.colorMode === 'dark' ? '#0B1120' : '#F6FCFE',
+        color: props.colorMode === 'dark' ? '#F1F5F9' : '#1E293B',
         scrollBehavior: 'smooth',
       },
       '.info-link': {
@@ -96,7 +100,7 @@ const theme = extendTheme({
         border: 'none',
       },
       '.DayPicker-Day': {
-        color: 'primary',
+        color: props.colorMode === 'dark' ? '#60A5FA' : 'primary',
         '&--disabled': {
           opacity: 0.3,
         },
@@ -109,9 +113,44 @@ const theme = extendTheme({
         bg: 'primary',
         color: 'white',
       },
-      '.DayPicker-Weekday': { color: 'text', opacity: 0.9 },
-      '.DayPicker-Caption': { color: 'text' },
-    },
+      '.DayPicker-Weekday': { color: props.colorMode === 'dark' ? '#94A3B8' : 'text', opacity: 0.9 },
+      '.DayPicker-Caption': { color: props.colorMode === 'dark' ? '#F1F5F9' : 'text' },
+      '.chakra-ui-dark .chakra-table': {
+        color: '#F1F5F9 !important',
+      },
+      '.chakra-ui-dark .chakra-table th': {
+        color: '#94A3B8 !important',
+        borderColor: '#334155 !important',
+        bg: '#0F172A !important',
+      },
+      '.chakra-ui-dark .chakra-table td': {
+        borderColor: '#334155 !important',
+        color: '#F1F5F9 !important',
+      },
+      '.chakra-ui-dark .chakra-table tr:hover td': {
+        bg: 'rgba(255, 255, 255, 0.03)',
+      },
+      '.chakra-ui-dark .chakra-modal__content': {
+        bg: '#1E293B !important',
+        color: '#F1F5F9 !important',
+        borderColor: '#334155 !important',
+      },
+      '.chakra-ui-dark .chakra-modal__header': {
+        color: '#F8FAFC !important',
+      },
+      '.chakra-ui-dark .chakra-modal__close-btn': {
+        color: '#94A3B8 !important',
+      },
+      '.chakra-ui-dark .chakra-input, .chakra-ui-dark .chakra-select, .chakra-ui-dark .chakra-textarea': {
+        bg: '#0F172A !important',
+        borderColor: '#334155 !important',
+        color: '#F1F5F9 !important',
+      },
+      '.chakra-ui-dark .chakra-input:focus, .chakra-ui-dark .chakra-select:focus': {
+        borderColor: '#3B82F6 !important',
+        boxShadow: '0 0 0 1px #3B82F6 !important',
+      },
+    }),
   },
 })
 

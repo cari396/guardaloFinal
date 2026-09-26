@@ -13,6 +13,8 @@ import {
   DrawerCloseButton,
   DrawerBody,
   useDisclosure,
+  useColorMode,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import {
   FiPackage,
@@ -26,6 +28,7 @@ import {
 } from 'react-icons/fi'
 import Logo from '../Logo'
 import UserNav from '../UserNav'
+import ThemeToggle from '../ThemeToggle'
 import { useAuth } from '../../context/AuthContext'
 
 export type DashboardTab =
@@ -174,8 +177,16 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
     </Flex>
   )
 
+  const { colorMode } = useColorMode()
+  const isDark = colorMode === 'dark'
+
+  const topBarBg = useColorModeValue('white', '#1E293B')
+  const topBarBorder = useColorModeValue('1px solid #e2e8f0', '1px solid #334155')
+  const pageBg = useColorModeValue('#f4f7fb', '#0B1120')
+  const sidebarBg = useColorModeValue('#16284a', '#0F172A')
+
   return (
-    <Box minH="100vh" w="100%" bg="#f4f7fb">
+    <Box minH="100vh" w="100%" bg={pageBg} transition="background-color 0.2s ease">
       {/* Top Bar (Prototype Pages 1 & 2) */}
       <Flex
         as="header"
@@ -184,13 +195,14 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         left={0}
         right={0}
         h="70px"
-        bg="white"
-        borderBottom="1px solid #e2e8f0"
+        bg={topBarBg}
+        borderBottom={topBarBorder}
         zIndex={50}
         align="center"
         justify="space-between"
         px={[4, 6, 8]}
         boxShadow="0 1px 3px rgba(0,0,0,0.03)"
+        transition="background-color 0.2s ease, border-color 0.2s ease"
       >
         <HStack spacing={4}>
           {/* Mobile menu trigger */}
@@ -202,14 +214,15 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             onClick={onOpen}
           />
           <Link to="/">
-            <Logo white={false} maxW={['150px', '180px']} />
+            <Logo white={isDark} maxW={['150px', '180px']} />
           </Link>
         </HStack>
 
-        {/* User profile dropdown on top-right: JUAN LÓPEZ ▼ */}
-        <Flex align="center">
+        {/* User profile dropdown and dark mode on top-right */}
+        <HStack spacing={3} align="center">
+          <ThemeToggle variant="outline" size="sm" />
           <UserNav inDashboard={true} />
-        </Flex>
+        </HStack>
       </Flex>
 
       {/* Main Container: Sidebar + Content */}
@@ -218,7 +231,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         <Box
           display={['none', 'none', 'block']}
           w={['220px', '240px', '260px']}
-          bg="#16284a"
+          bg={sidebarBg}
           position="fixed"
           top="70px"
           bottom={0}
@@ -226,6 +239,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           zIndex={40}
           boxShadow="2px 0 8px rgba(0,0,0,0.1)"
           overflowY="auto"
+          transition="background-color 0.2s ease"
         >
           {renderNavContent()}
         </Box>
@@ -233,7 +247,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         {/* Mobile Drawer Sidebar */}
         <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
           <DrawerOverlay />
-          <DrawerContent bg="#16284a">
+          <DrawerContent bg={sidebarBg}>
             <DrawerCloseButton color="white" />
             <DrawerBody p={0} pt={10}>
               {renderNavContent()}

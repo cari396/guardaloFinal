@@ -33,6 +33,7 @@ import {
   Textarea,
   Select,
   IconButton,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import {
   FiCalendar,
@@ -224,6 +225,10 @@ const PanelPage: React.FC = () => {
   const [boxes, setBoxes] = useState<BoxItem[]>([])
   const [prices, setPrices] = useState<PriceItem[]>(DEFAULT_PRICES)
   const toast = useToast()
+
+  const cardBg = useColorModeValue('white', '#1E293B')
+  const cardBorder = useColorModeValue('1px solid #e2e8f0', '1px solid #334155')
+  const dashedBorder = useColorModeValue('1px dashed #cbd5e1', '1px dashed #475569')
 
   // Selected item for operations modal
   const [selectedBox, setSelectedBox] = useState<BoxItem | null>(null)
@@ -853,17 +858,17 @@ const PanelPage: React.FC = () => {
       {/* Box Rows or Empty State */}
       {boxes.length === 0 ? (
         <Box
-          bg="white"
+          bg={cardBg}
           p={[6, 10]}
           borderRadius="lg"
-          border="1px dashed #cbd5e1"
+          border={dashedBorder}
           textAlign="center"
           mb={8}
         >
           <Box color="gray.400" fontSize="42px" mb={3} display="flex" justifyContent="center">
             <FiBox />
           </Box>
-          <Heading as="h3" size="md" color="#16284a" mb={2}>
+          <Heading as="h3" size="md" color={useColorModeValue('#16284a', 'white')} mb={2}>
             Todavía no tenés ningún box alquilado
           </Heading>
           <Text color="gray.500" fontSize="sm" mb={6} maxW="440px" mx="auto">
@@ -887,9 +892,9 @@ const PanelPage: React.FC = () => {
           {boxes.map((box) => (
             <Box
               key={box.id}
-              bg="white"
+              bg={cardBg}
               borderRadius="md"
-              border="1px solid #e2e8f0"
+              border={cardBorder}
               boxShadow="0 1px 4px rgba(0,0,0,0.04)"
               py={4}
               px={[4, 6, 8]}
@@ -907,7 +912,7 @@ const PanelPage: React.FC = () => {
                   <Text
                     fontSize={['lg', 'xl']}
                     fontWeight="bold"
-                    color="#16284a"
+                    color={useColorModeValue('#16284a', 'white')}
                     letterSpacing="wide"
                   >
                     {box.boxNumber}
@@ -1062,10 +1067,10 @@ const PanelPage: React.FC = () => {
             return (
               <Box
                 key={s}
-                bg="white"
+                bg={cardBg}
                 borderRadius="lg"
                 border="1px solid"
-                borderColor={isOut ? 'red.200' : '#e2e8f0'}
+                borderColor={isOut ? 'red.400' : cardBorder}
                 boxShadow="sm"
                 p={5}
                 position="relative"
@@ -1096,17 +1101,17 @@ const PanelPage: React.FC = () => {
                   </Badge>
                 </Flex>
 
-                <SimpleGrid columns={3} spacing={2} textAlign="center" py={3} bg="gray.50" borderRadius="md" mb={4}>
+                <SimpleGrid columns={3} spacing={2} textAlign="center" py={3} bg={useColorModeValue('gray.50', '#0F172A')} borderRadius="md" mb={4}>
                   <Box>
-                    <Text fontSize="2xl" fontWeight="bold" color={isOut ? 'red.500' : 'green.600'}>
+                    <Text fontSize="2xl" fontWeight="bold" color={isOut ? 'red.500' : 'green.500'}>
                       {sum.available}
                     </Text>
                     <Text fontSize="xs" color="gray.500" fontWeight="medium">
                       Disponibles
                     </Text>
                   </Box>
-                  <Box borderLeft="1px solid #e2e8f0" borderRight="1px solid #e2e8f0">
-                    <Text fontSize="2xl" fontWeight="bold" color="blue.600">
+                  <Box borderLeft={cardBorder} borderRight={cardBorder}>
+                    <Text fontSize="2xl" fontWeight="bold" color="blue.500">
                       {sum.rented}
                     </Text>
                     <Text fontSize="xs" color="gray.500" fontWeight="medium">
@@ -1114,7 +1119,7 @@ const PanelPage: React.FC = () => {
                     </Text>
                   </Box>
                   <Box>
-                    <Text fontSize="2xl" fontWeight="bold" color="gray.700">
+                    <Text fontSize="2xl" fontWeight="bold" color={useColorModeValue('gray.700', 'gray.200')}>
                       {sum.total}
                     </Text>
                     <Text fontSize="xs" color="gray.500" fontWeight="medium">
@@ -1127,10 +1132,10 @@ const PanelPage: React.FC = () => {
                   w="100%"
                   size="sm"
                   variant="outline"
-                  borderColor="#16284a"
-                  color="#16284a"
+                  borderColor={useColorModeValue('#16284a', '#3B82F6')}
+                  color={useColorModeValue('#16284a', '#60A5FA')}
                   leftIcon={<FiSliders />}
-                  _hover={{ bg: 'blue.50' }}
+                  _hover={{ bg: useColorModeValue('blue.50', 'whiteAlpha.100') }}
                   onClick={() => handleOpenCapacityModal(s, sum.total)}
                 >
                   Ajustar Capacidad Total
@@ -1141,7 +1146,7 @@ const PanelPage: React.FC = () => {
         </SimpleGrid>
 
         {/* Individual Boxes Management */}
-        <Box bg="white" borderRadius="lg" border="1px solid #e2e8f0" boxShadow="sm" p={6}>
+        <Box bg={cardBg} borderRadius="lg" border={cardBorder} boxShadow="sm" p={6}>
           <Flex justify="space-between" align={['flex-start', 'center']} direction={['column', 'row']} gap={4} mb={6}>
             <Heading as="h3" size="md" color="primary">
               Detalle de Unidades Físicas ({filteredBoxes.length})
@@ -1319,9 +1324,9 @@ const PanelPage: React.FC = () => {
         {prices.map((item) => (
           <Box
             key={item.id}
-            bg="white"
+            bg={cardBg}
             borderRadius="md"
-            border="1px solid #e2e8f0"
+            border={cardBorder}
             boxShadow="0 1px 4px rgba(0,0,0,0.04)"
             py={4}
             px={[4, 6, 8]}
@@ -1419,7 +1424,7 @@ const PanelPage: React.FC = () => {
      RENDER: MIS DATOS VIEW
      ========================================================================= */
   const renderDatosView = () => (
-    <Box maxW="800px" bg="white" p={[6, 8]} borderRadius="md" border="1px solid #e2e8f0" boxShadow="sm">
+    <Box maxW="800px" bg={cardBg} p={[6, 8]} borderRadius="md" border={cardBorder} boxShadow="sm">
       <Heading
         as="h2"
         fontSize={['xl', '2xl']}
@@ -1523,17 +1528,17 @@ const PanelPage: React.FC = () => {
 
       {operaciones.length === 0 ? (
         <Box
-          bg="white"
+          bg={cardBg}
           p={[6, 10]}
           borderRadius="lg"
-          border="1px dashed #cbd5e1"
+          border={dashedBorder}
           textAlign="center"
           mb={8}
         >
           <Box color="gray.400" fontSize="42px" mb={3} display="flex" justifyContent="center">
             <FiClock />
           </Box>
-          <Heading as="h3" size="md" color="#16284a" mb={2}>
+          <Heading as="h3" size="md" color={useColorModeValue('#16284a', 'white')} mb={2}>
             Todavía no tenés operaciones registradas
           </Heading>
           <Text color="gray.500" fontSize="sm" mb={6} maxW="440px" mx="auto">
@@ -1553,9 +1558,9 @@ const PanelPage: React.FC = () => {
           </Button>
         </Box>
       ) : (
-        <Box bg="white" borderRadius="md" border="1px solid #e2e8f0" overflowX="auto" boxShadow="sm">
+        <Box bg={cardBg} borderRadius="md" border={cardBorder} overflowX="auto" boxShadow="sm">
           <Table variant="simple" size="md">
-            <Thead bg="gray.50">
+            <Thead bg={useColorModeValue('gray.50', '#0F172A')}>
               <Tr>
                 <Th>Operación</Th>
                 <Th>Box</Th>
@@ -1719,17 +1724,17 @@ const PanelPage: React.FC = () => {
         </Flex>
 
         {loadingAdminOps ? (
-          <Box bg="white" p={12} textAlign="center" borderRadius="md" border="1px solid #e2e8f0">
+          <Box bg={cardBg} p={12} textAlign="center" borderRadius="md" border={cardBorder}>
             <Text color="gray.500">Cargando operaciones...</Text>
           </Box>
         ) : filteredOps.length === 0 ? (
-          <Box bg="white" p={10} textAlign="center" borderRadius="md" border="1px dashed #cbd5e1">
+          <Box bg={cardBg} p={10} textAlign="center" borderRadius="md" border={dashedBorder}>
             <Text color="gray.500">No se encontraron operaciones para este criterio.</Text>
           </Box>
         ) : (
-          <Box bg="white" borderRadius="md" border="1px solid #e2e8f0" overflowX="auto" boxShadow="sm">
+          <Box bg={cardBg} borderRadius="md" border={cardBorder} overflowX="auto" boxShadow="sm">
             <Table variant="simple" size="sm">
-              <Thead bg="gray.50">
+              <Thead bg={useColorModeValue('gray.50', '#0F172A')}>
                 <Tr>
                   <Th py={3}>Operación</Th>
                   <Th>Fecha</Th>
@@ -1825,10 +1830,15 @@ const PanelPage: React.FC = () => {
                           {isPending && (
                             <Button
                               size="xs"
-                              colorScheme="green"
+                              bg="#16A34A"
+                              _hover={{ bg: '#15803D' }}
+                              color="white"
                               leftIcon={<FiCheckCircle />}
                               isLoading={approvingOpId === op.id}
                               onClick={() => handleApproveTransfer(op)}
+                              fontWeight="bold"
+                              boxShadow="sm"
+                              px={3}
                             >
                               Aprobar
                             </Button>
@@ -1888,9 +1898,9 @@ const PanelPage: React.FC = () => {
         </Button>
       </Flex>
 
-      <Box bg="white" borderRadius="md" border="1px solid #e2e8f0" overflowX="auto" boxShadow="sm">
+      <Box bg={cardBg} borderRadius="md" border={cardBorder} overflowX="auto" boxShadow="sm">
         <Table variant="simple">
-          <Thead bg="gray.50">
+          <Thead bg={useColorModeValue('gray.50', '#0F172A')}>
             <Tr>
               <Th>Cliente</Th>
               <Th>Contacto</Th>
@@ -1968,7 +1978,7 @@ const PanelPage: React.FC = () => {
      RENDER: CONTRATO VIEW (Admin)
      ========================================================================= */
   const renderContratoView = () => (
-    <Box maxW="900px" bg="white" p={[6, 8]} borderRadius="md" border="1px solid #e2e8f0" boxShadow="sm">
+    <Box maxW="900px" bg={cardBg} p={[6, 8]} borderRadius="md" border={cardBorder} boxShadow="sm">
       <Heading
         as="h2"
         fontSize={['xl', '2xl']}

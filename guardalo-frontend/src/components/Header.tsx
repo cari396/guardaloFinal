@@ -20,6 +20,8 @@ import {
   Badge,
   Avatar,
   Divider,
+  useColorMode,
+  useColorModeValue,
 } from '@chakra-ui/react'
 import {
   FiMenu,
@@ -35,6 +37,7 @@ import {
   FiArrowRight,
 } from 'react-icons/fi'
 import Logo from './Logo'
+import ThemeToggle from './ThemeToggle'
 import { useAuth } from '../context/AuthContext'
 
 export const headerHeight = 76
@@ -77,6 +80,8 @@ const Header: React.FC = () => {
   }, [location.pathname])
 
   const white = isHome && onTop
+  const { colorMode } = useColorMode()
+  const isDark = colorMode === 'dark'
 
   const rentUrl = isAuthenticated ? '/alquilar' : '/login?redirect=/alquilar'
   const renewUrl = isAuthenticated ? '/renovar' : '/login?redirect=/renovar'
@@ -95,6 +100,8 @@ const Header: React.FC = () => {
         bg={
           white
             ? 'rgba(14, 25, 48, 0.45)'
+            : isDark
+            ? 'rgba(15, 23, 42, 0.95)'
             : 'rgba(255, 255, 255, 0.95)'
         }
         backdropFilter="blur(14px)"
@@ -102,11 +109,15 @@ const Header: React.FC = () => {
         borderColor={
           white
             ? 'rgba(255, 255, 255, 0.12)'
+            : isDark
+            ? 'rgba(255, 255, 255, 0.1)'
             : '#e2e8f0'
         }
         boxShadow={
           white
             ? 'none'
+            : isDark
+            ? '0 4px 20px rgba(0, 0, 0, 0.3)'
             : '0 4px 20px rgba(0, 0, 0, 0.05)'
         }
       >
@@ -120,7 +131,7 @@ const Header: React.FC = () => {
         >
           {/* Logo */}
           <Link to="/" style={{ display: 'flex', alignItems: 'center' }}>
-            <Logo white={white} maxW={['150px', '180px']} />
+            <Logo white={white || isDark} maxW={['150px', '180px']} />
           </Link>
 
           {/* Desktop Navigation Links */}
@@ -145,6 +156,10 @@ const Header: React.FC = () => {
                       ? isActive
                         ? '#93c5fd'
                         : 'white'
+                      : isDark
+                      ? isActive
+                        ? '#60a5fa'
+                        : '#e2e8f0'
                       : isActive
                       ? '#1d4ed8'
                       : '#1e293b'
@@ -153,7 +168,7 @@ const Header: React.FC = () => {
                   py={1}
                   transition="all 0.2s ease"
                   _hover={{
-                    color: white ? '#93c5fd' : '#2563eb',
+                    color: white ? '#93c5fd' : isDark ? '#93c5fd' : '#2563eb',
                     transform: 'translateY(-1px)',
                   }}
                 >
@@ -165,7 +180,7 @@ const Header: React.FC = () => {
                       left="0"
                       right="0"
                       h="2px"
-                      bg={white ? '#93c5fd' : '#2563eb'}
+                      bg={white ? '#93c5fd' : isDark ? '#60a5fa' : '#2563eb'}
                       borderRadius="full"
                     />
                   )}
@@ -175,19 +190,20 @@ const Header: React.FC = () => {
           </HStack>
 
           {/* Desktop Actions */}
-          <HStack spacing={4} display={['none', 'none', 'flex']}>
+          <HStack spacing={4} display={['none', 'none', 'flex']} align="center">
+            <ThemeToggle size="sm" variant={white ? 'ghost' : isDark ? 'ghost' : 'outline'} />
             {isAuthenticated && user ? (
               <HStack spacing={3}>
                 <Button
                   as={Link}
                   to="/panel"
                   size="sm"
-                  bg={white ? 'whiteAlpha.200' : '#16284a'}
+                  bg={white ? 'whiteAlpha.200' : isDark ? '#2563EB' : '#16284a'}
                   color="white"
                   border="1px solid"
-                  borderColor={white ? 'whiteAlpha.300' : '#16284a'}
+                  borderColor={white ? 'whiteAlpha.300' : isDark ? '#3B82F6' : '#16284a'}
                   _hover={{
-                    bg: white ? 'whiteAlpha.300' : '#0f1d38',
+                    bg: white ? 'whiteAlpha.300' : isDark ? '#1D4ED8' : '#0f1d38',
                     transform: 'translateY(-1px)',
                     boxShadow: 'sm',
                   }}
@@ -207,9 +223,9 @@ const Header: React.FC = () => {
                   icon={<FiLogOut />}
                   size="sm"
                   variant="ghost"
-                  color={white ? 'whiteAlpha.800' : 'gray.500'}
+                  color={white ? 'whiteAlpha.800' : isDark ? 'gray.400' : 'gray.500'}
                   _hover={{
-                    bg: white ? 'whiteAlpha.200' : 'blackAlpha.50',
+                    bg: white ? 'whiteAlpha.200' : isDark ? 'whiteAlpha.100' : 'blackAlpha.50',
                     color: 'red.500',
                   }}
                   onClick={() => {
@@ -228,7 +244,7 @@ const Header: React.FC = () => {
                   fontWeight="600"
                   letterSpacing="wider"
                   textTransform="uppercase"
-                  color={white ? 'white' : '#16284a'}
+                  color={white ? 'white' : isDark ? '#E2E8F0' : '#16284a'}
                   _hover={{ textDecoration: 'underline', opacity: 0.9 }}
                   whiteSpace="nowrap"
                 >
@@ -238,10 +254,10 @@ const Header: React.FC = () => {
                   as={Link}
                   to={rentUrl}
                   size="sm"
-                  bg={white ? 'white' : '#16284a'}
+                  bg={white ? 'white' : isDark ? '#2563EB' : '#16284a'}
                   color={white ? '#16284a' : 'white'}
                   _hover={{
-                    bg: white ? 'gray.100' : '#0f1d38',
+                    bg: white ? 'gray.100' : isDark ? '#1D4ED8' : '#0f1d38',
                     transform: 'translateY(-1px)',
                     boxShadow: 'md',
                   }}
@@ -261,7 +277,8 @@ const Header: React.FC = () => {
           </HStack>
 
           {/* Mobile Right Controls (< md) */}
-          <HStack spacing={2} display={['flex', 'flex', 'none']}>
+          <HStack spacing={2} display={['flex', 'flex', 'none']} align="center">
+            <ThemeToggle size="sm" variant={white ? 'ghost' : isDark ? 'ghost' : 'outline'} />
             {isAuthenticated && (
               <Button
                 as={Link}
@@ -269,7 +286,7 @@ const Header: React.FC = () => {
                 size="xs"
                 variant={white ? 'outline' : 'solid'}
                 colorScheme="blue"
-                bg={white ? 'whiteAlpha.200' : '#16284a'}
+                bg={white ? 'whiteAlpha.200' : isDark ? '#2563EB' : '#16284a'}
                 color="white"
                 borderColor={white ? 'whiteAlpha.400' : 'transparent'}
                 borderRadius="full"
@@ -285,8 +302,8 @@ const Header: React.FC = () => {
               aria-label="Abrir menú"
               icon={<FiMenu size="24px" />}
               variant="ghost"
-              color={white ? 'white' : '#16284a'}
-              _hover={{ bg: white ? 'whiteAlpha.200' : 'blackAlpha.50' }}
+              color={white ? 'white' : isDark ? '#F1F5F9' : '#16284a'}
+              _hover={{ bg: white ? 'whiteAlpha.200' : isDark ? 'whiteAlpha.200' : 'blackAlpha.50' }}
               onClick={onOpen}
             />
           </HStack>
@@ -296,11 +313,11 @@ const Header: React.FC = () => {
       {/* Mobile Slide-Out Drawer (Ultra-Modern, Responsive) */}
       <Drawer isOpen={isOpen} placement="right" onClose={onClose} size="xs">
         <DrawerOverlay bg="blackAlpha.600" backdropFilter="blur(8px)" />
-        <DrawerContent bg="white" color="gray.800" maxW="320px">
+        <DrawerContent bg={isDark ? '#0F172A' : 'white'} color={isDark ? 'white' : 'gray.800'} maxW="320px">
           <DrawerCloseButton mt={2} mr={2} size="lg" />
-          <DrawerHeader borderBottom="1px solid #e2e8f0" py={4} px={5}>
+          <DrawerHeader borderBottom={isDark ? '1px solid #334155' : '1px solid #e2e8f0'} py={4} px={5}>
             <Link to="/" onClick={onClose}>
-              <Logo white={false} maxW="150px" />
+              <Logo white={isDark} maxW="150px" />
             </Link>
           </DrawerHeader>
 
@@ -309,8 +326,9 @@ const Header: React.FC = () => {
               {/* User Section in Drawer */}
               {isAuthenticated && user ? (
                 <Box
-                  bg="#eff6ff"
-                  border="1px solid #bfdbfe"
+                  bg={isDark ? 'whiteAlpha.100' : '#eff6ff'}
+                  border="1px solid"
+                  borderColor={isDark ? 'whiteAlpha.200' : '#bfdbfe'}
                   borderRadius="xl"
                   p={4}
                 >
@@ -323,10 +341,10 @@ const Header: React.FC = () => {
                       fontWeight="bold"
                     />
                     <Box overflow="hidden">
-                      <Text fontWeight="bold" fontSize="sm" color="#16284a" isTruncated>
+                      <Text fontWeight="bold" fontSize="sm" color={isDark ? 'white' : '#16284a'} isTruncated>
                         {user.name}
                       </Text>
-                      <Text fontSize="xs" color="gray.500" isTruncated>
+                      <Text fontSize="xs" color={isDark ? 'gray.400' : 'gray.500'} isTruncated>
                         {user.email}
                       </Text>
                     </Box>
@@ -340,9 +358,9 @@ const Header: React.FC = () => {
                     onClick={onClose}
                     w="100%"
                     size="sm"
-                    bg="#16284a"
+                    bg={isDark ? '#2563EB' : '#16284a'}
                     color="white"
-                    _hover={{ bg: '#0f1d38' }}
+                    _hover={{ bg: isDark ? '#1D4ED8' : '#0f1d38' }}
                     leftIcon={<FiBox />}
                     fontWeight="semibold"
                     fontSize="xs"
@@ -354,13 +372,14 @@ const Header: React.FC = () => {
                 </Box>
               ) : (
                 <Box
-                  bg="gray.50"
-                  border="1px solid #e2e8f0"
+                  bg={isDark ? 'whiteAlpha.100' : 'gray.50'}
+                  border="1px solid"
+                  borderColor={isDark ? 'whiteAlpha.200' : '#e2e8f0'}
                   borderRadius="xl"
                   p={4}
                   textAlign="center"
                 >
-                  <Text fontSize="xs" color="gray.600" mb={3}>
+                  <Text fontSize="xs" color={isDark ? 'gray.300' : 'gray.600'} mb={3}>
                     Accedé a tu cuenta para gestionar tus alquileres
                   </Text>
                   <Button
@@ -384,7 +403,7 @@ const Header: React.FC = () => {
                 <Text
                   fontSize="11px"
                   fontWeight="bold"
-                  color="gray.400"
+                  color={isDark ? 'gray.500' : 'gray.400'}
                   textTransform="uppercase"
                   letterSpacing="wider"
                   px={3}
@@ -418,12 +437,15 @@ const Header: React.FC = () => {
                       px={3.5}
                       py={2.5}
                       borderRadius="lg"
-                      bg={isActive ? 'blue.50' : 'transparent'}
-                      color={isActive ? '#1d4ed8' : '#334155'}
+                      bg={isActive ? (isDark ? 'whiteAlpha.200' : 'blue.50') : 'transparent'}
+                      color={isActive ? (isDark ? '#60a5fa' : '#1d4ed8') : (isDark ? '#e2e8f0' : '#334155')}
                       fontWeight={isActive ? '700' : '500'}
                       fontSize="sm"
                       transition="all 0.15s"
-                      _hover={{ bg: 'gray.100', color: '#16284a' }}
+                      _hover={{
+                        bg: isDark ? 'whiteAlpha.100' : 'gray.100',
+                        color: isDark ? 'white' : '#16284a',
+                      }}
                     >
                       <HStack spacing={3}>
                         <IconComp size="16px" />
@@ -435,7 +457,7 @@ const Header: React.FC = () => {
                 })}
               </VStack>
 
-              <Divider />
+              <Divider borderColor={isDark ? 'whiteAlpha.200' : 'gray.200'} />
 
               {/* Quick Actions */}
               <VStack spacing={2.5} align="stretch">
@@ -445,9 +467,9 @@ const Header: React.FC = () => {
                   onClick={onClose}
                   w="100%"
                   h="44px"
-                  bg="#16284a"
+                  bg={isDark ? '#2563EB' : '#16284a'}
                   color="white"
-                  _hover={{ bg: '#0f1d38' }}
+                  _hover={{ bg: isDark ? '#1D4ED8' : '#0f1d38' }}
                   leftIcon={<FiPackage />}
                   fontWeight="bold"
                   fontSize="sm"
@@ -463,9 +485,9 @@ const Header: React.FC = () => {
                   w="100%"
                   h="44px"
                   variant="outline"
-                  borderColor="#cbd5e1"
-                  color="#16284a"
-                  _hover={{ bg: 'gray.50' }}
+                  borderColor={isDark ? 'whiteAlpha.300' : '#cbd5e1'}
+                  color={isDark ? 'white' : '#16284a'}
+                  _hover={{ bg: isDark ? 'whiteAlpha.100' : 'gray.50' }}
                   leftIcon={<FiRepeat />}
                   fontWeight="semibold"
                   fontSize="sm"
@@ -478,7 +500,7 @@ const Header: React.FC = () => {
           </DrawerBody>
 
           {/* Drawer Footer with Logout & Address */}
-          <DrawerFooter borderTop="1px solid #e2e8f0" justifyContent="space-between" py={3} px={5}>
+          <DrawerFooter borderTop={isDark ? '1px solid #334155' : '1px solid #e2e8f0'} justifyContent="space-between" py={3} px={5}>
             {isAuthenticated ? (
               <Button
                 variant="ghost"

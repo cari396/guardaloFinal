@@ -1,26 +1,31 @@
 import React from 'react'
 
 import Svg from '../images/logo.inline.svg'
-import { Box, BoxProps } from '@chakra-ui/react'
+import { Box, BoxProps, useColorModeValue } from '@chakra-ui/react'
 
 type LogoProps = {
-  white: boolean
+  white?: boolean
 }
 
-const Logo: React.FC<LogoProps & BoxProps> = ({ white, ...rest }) => (
-  <Box
-    as={Svg}
-    p="0.25rem"
-    ml={['0.5rem', '0.5rem', '0']}
-    maxW="60vw"
-    sx={{
-      '& path': {
-        fill: white ? 'white !important' : undefined,
-        transition: 'all 0.3s ease',
-      },
-    }}
-    {...rest}
-  />
-)
+const Logo: React.FC<LogoProps & BoxProps> = ({ white, ...rest }) => {
+  const isDark = useColorModeValue(false, true)
+  const isWhite = white !== undefined ? white : isDark
+
+  return (
+    <Box
+      as={Svg}
+      p="0.25rem"
+      ml={['0.5rem', '0.5rem', '0']}
+      maxW="60vw"
+      sx={{
+        '& path': {
+          fill: isWhite ? 'white !important' : undefined,
+          transition: 'all 0.3s ease',
+        },
+      }}
+      {...rest}
+    />
+  )
+}
 
 export default Logo
