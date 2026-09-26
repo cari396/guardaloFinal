@@ -1748,31 +1748,31 @@ const PanelPage: React.FC = () => {
                     op.payment_status === 'pendiente_transferencia' || op.payment_status === 'pendiente'
                   return (
                     <Tr key={op.id} _hover={{ bg: 'gray.50' }}>
-                      <Td fontWeight="bold" fontSize="xs">
-                        {op.operation_code}
+                      <Td fontWeight="bold" fontSize="xs" color="gray.800">
+                        {op.operation_code || (op as any).code || `#OP-${op.id}`}
                       </Td>
                       <Td fontSize="xs" color="gray.600">
                         {op.created_at}
                       </Td>
                       <Td>
                         <Text fontWeight="bold" fontSize="xs">
-                          {op.user?.name || 'Cliente'}
+                          {op.user?.name || (op as any).client_name || 'Cliente'}
                         </Text>
                         <Text fontSize="11px" color="gray.500">
-                          {op.user?.email}
+                          {op.user?.email || (op as any).client_email}
                         </Text>
-                        {op.user?.phone && (
+                        {(op.user?.phone || (op as any).client_phone) && (
                           <Text fontSize="10px" color="gray.400">
-                            Tel: {op.user.phone}
+                            Tel: {op.user?.phone || (op as any).client_phone}
                           </Text>
                         )}
                       </Td>
                       <Td>
                         <Badge colorScheme="blue" variant="subtle">
-                          {op.box?.box_number || 'BOX'}
+                          {op.box?.box_number || (op as any).box_number || 'BOX'}
                         </Badge>
                         <Text fontSize="10px" color="gray.500">
-                          {op.box?.size}
+                          {op.box?.size || (op as any).size}
                         </Text>
                       </Td>
                       <Td fontWeight="bold" fontSize="xs">

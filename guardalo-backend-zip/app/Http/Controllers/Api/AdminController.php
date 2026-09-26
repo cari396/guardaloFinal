@@ -120,7 +120,20 @@ class AdminController extends Controller
         $formatted = $operations->map(function ($op) {
             return [
                 'id' => $op->id,
-                'code' => $op->operation_code,
+                'operation_code' => $op->operation_code ?: ('#OP-' . $op->id),
+                'code' => $op->operation_code ?: ('#OP-' . $op->id),
+                'user' => $op->user ? [
+                    'id' => $op->user->id,
+                    'name' => $op->user->name,
+                    'email' => $op->user->email,
+                    'phone' => $op->user->phone,
+                    'dni' => $op->user->dni,
+                ] : null,
+                'box' => $op->box ? [
+                    'id' => $op->box->id,
+                    'box_number' => $op->box->box_number,
+                    'size' => $op->box->size,
+                ] : null,
                 'client_name' => $op->user ? $op->user->name : 'Desconocido',
                 'client_email' => $op->user ? $op->user->email : '',
                 'client_phone' => $op->user ? $op->user->phone : '',
