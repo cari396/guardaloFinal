@@ -183,6 +183,7 @@ class AdminController extends Controller
             if ($operation->user && $operation->user->email) {
                 Mail::to($operation->user->email)->send(new PagoConfirmadoMail($operation, true));
             }
+            Mail::to('contacto@guardalo.com.ar')->send(new PagoConfirmadoMail($operation, false));
         } catch (\Exception $e) {
             \Log::warning('Error enviando mail de confirmación de transferencia: ' . $e->getMessage());
         }

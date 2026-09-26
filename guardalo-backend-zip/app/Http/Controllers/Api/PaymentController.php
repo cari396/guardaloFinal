@@ -8,6 +8,7 @@ use App\Models\Operation;
 use App\Models\Box;
 use App\Services\MercadoPagoService;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
 use Validator;
 
@@ -256,6 +257,18 @@ class PaymentController extends Controller
         $updateData['notes'] = trim(($operation->notes ?? '') . ' | ' . $noteInfo);
 
         $operation->update($updateData);
+
+        try {
+            $clientName = $operation->user ? $operation->user->name : 'Cliente';
+            Mail::raw("Se ha registrado un comprobante de transferencia bancaria:\n\n- Operación: {$operation->operation_code}\n- Cliente: {$clientName}\n- Referencia: {$request->get('transfer_reference')}\n- Monto: $" . number_format($operation->amount, 2, ',', '.') . "\n\nIngresá al Panel de Administración para verificar el comprobante y aprobar la activación del box.", function ($msg) use ($operation) {
+                $msg->to('contacto@guardalo.com.ar')
+                    ->from(config('mail.from.address', 'no-responder@guardalo.com.ar'), config('mail.from.name', 'Guardalo.com'))
+                    ->replyTo('contacto@guardalo.com.ar')
+                    ->subject("Nuevo Comprobante por Aprobar: {$operation->operation_code}");
+            });
+        } catch (\Exception $e) {
+            Log::warning('Error notificando comprobante a admin: ' . $e->getMessage());
+        }
 
         return response()->json([
             'success'            => true,

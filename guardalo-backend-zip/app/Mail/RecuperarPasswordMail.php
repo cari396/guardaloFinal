@@ -35,10 +35,11 @@ class RecuperarPasswordMail extends Mailable
      */
     public function build()
     {
-        $fromEmail = config('mail.from.address', 'contacto@guardalo.com.ar');
+        $fromEmail = config('mail.from.address', 'no-responder@guardalo.com.ar');
         $fromName = config('mail.from.name', 'Guardalo.com');
 
         return $this->from($fromEmail, $fromName)
+            ->replyTo('contacto@guardalo.com.ar', 'Guardalo.com')
             ->subject('Restablecer tu contraseña - Guardalo.com')
             ->view('emails.recuperar_password');
     }

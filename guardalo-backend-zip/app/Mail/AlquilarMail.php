@@ -78,19 +78,20 @@ class AlquilarMail extends Mailable
      */
     public function build()
     {
-        $fromEmail = config('mail.from.address', 'contacto@guardalo.com.ar');
+        $fromEmail = config('mail.from.address', 'no-responder@guardalo.com.ar');
         $fromName = config('mail.from.name', 'Guardalo.com');
 
         if ($this->copy) {
             $unitStr = $this->boxNumber ? " ({$this->boxNumber})" : "";
             return $this->from($fromEmail, 'Guardalo.com - Alquiler de Box')
+                ->replyTo('contacto@guardalo.com.ar', 'Guardalo.com')
                 ->subject('Confirmación de Alquiler de Box' . $unitStr . ' - Guardalo.com')
                 ->view('emails.alquilar');
         }
 
         return $this->from($fromEmail, 'Guardalo.com - Solicitud Web')
             ->subject('Nueva solicitud de alquiler: ' . ($this->boxNumber ?: $this->size) . ' - ' . $this->name . ' ' . $this->last_name)
-            ->replyTo($this->email ?: $fromEmail)
+            ->replyTo($this->email ?: 'contacto@guardalo.com.ar')
             ->view('emails.alquilar');
     }
 }

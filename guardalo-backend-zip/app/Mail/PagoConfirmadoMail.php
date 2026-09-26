@@ -44,16 +44,18 @@ class PagoConfirmadoMail extends Mailable
      */
     public function build()
     {
-        $fromEmail = config('mail.from.address', 'contacto@guardalo.com.ar');
+        $fromEmail = config('mail.from.address', 'no-responder@guardalo.com.ar');
         $fromName = config('mail.from.name', 'Guardalo.com');
 
         if ($this->isClientCopy) {
             return $this->from($fromEmail, $fromName)
+                ->replyTo('contacto@guardalo.com.ar', 'Guardalo.com')
                 ->subject('¡Pago Confirmado! Tu unidad ' . $this->boxNumber . ' está activa - Guardalo.com')
                 ->view('emails.pago_confirmado');
         }
 
         return $this->from($fromEmail, $fromName)
+            ->replyTo('contacto@guardalo.com.ar', 'Guardalo.com')
             ->subject('Pago Acreditado: ' . $this->boxNumber . ' (' . $this->operation->operation_code . ')')
             ->view('emails.pago_confirmado');
     }

@@ -48,18 +48,19 @@ class RenovarMail extends Mailable
      */
     public function build()
     {
-        $fromEmail = config('mail.from.address', 'contacto@guardalo.com.ar');
+        $fromEmail = config('mail.from.address', 'no-responder@guardalo.com.ar');
         $fromName = config('mail.from.name', 'Guardalo.com');
 
         if ($this->isClientCopy) {
             return $this->from($fromEmail, $fromName)
+                ->replyTo('contacto@guardalo.com.ar', 'Guardalo.com')
                 ->subject('Confirmación de Renovación - ' . $this->boxNumber . ' (' . $this->operationCode . ')')
                 ->view('emails.renovar');
         }
 
         return $this->from($fromEmail, $fromName)
             ->subject('Nueva Renovación registrada: ' . $this->boxNumber . ' - ' . $this->operationCode)
-            ->replyTo($this->email ?: $fromEmail)
+            ->replyTo($this->email ?: 'contacto@guardalo.com.ar')
             ->view('emails.renovar');
     }
 }
