@@ -22,7 +22,7 @@ import {
   Avatar,
   Badge,
 } from '@chakra-ui/react'
-import { FiLock, FiLogIn, FiUserPlus } from 'react-icons/fi'
+import { FiLock, FiLogIn, FiUserPlus, FiDownload, FiCheckCircle } from 'react-icons/fi'
 import AlquilarForm from '../components/AlquilarForm'
 import HeaderBox from '../components/HeaderBox'
 import PriceList from '../components/PriceList'
@@ -65,36 +65,56 @@ const AlquilarPage: React.FC<PageProps> = () => {
               .
             </Text>
 
-            <Flex justify="center" gap={4} wrap="wrap" my="2rem">
-              <Link
-                display="inline-block"
-                layerStyle="cta"
-                fontWeight="bold"
-                textTransform="uppercase"
-                to={pdfUrl}
+            <Flex justify="center" gap={4} wrap="wrap" my="2.5rem">
+              <Button
+                as="a"
+                href={pdfUrl}
                 target="_blank"
-              >
-                📄 Descargar / Ver Contrato
-              </Link>
-              <Link
-                display="inline-block"
-                layerStyle="cta"
-                bg="#16284a"
-                _hover={{ bg: '#101d36' }}
+                rel="noopener noreferrer"
+                colorScheme="teal"
+                bg="#0D9488"
+                _hover={{ bg: '#0F766E' }}
+                color="white"
                 fontWeight="bold"
+                fontSize="sm"
+                px={6}
+                py={6}
+                borderRadius="md"
+                boxShadow="md"
                 textTransform="uppercase"
+                leftIcon={<FiDownload />}
+              >
+                Descargar / Ver Contrato
+              </Button>
+              <Button
+                as={GatsbyLink}
                 to="/panel"
+                colorScheme="blue"
+                bg="#1E3264"
+                _hover={{ bg: '#16284a' }}
+                color="white"
+                fontWeight="bold"
+                fontSize="sm"
+                px={6}
+                py={6}
+                borderRadius="md"
+                boxShadow="md"
+                textTransform="uppercase"
+                leftIcon={<FiCheckCircle />}
               >
                 Ir a Mi Panel
-              </Link>
+              </Button>
               <Button
-                display="inline-block"
-                layerStyle="cta"
                 variant="outline"
-                borderColor="#cbd5e1"
-                color="#16284a"
-                _hover={{ bg: 'gray.50' }}
+                borderColor="#94A3B8"
+                color="#1E3264"
+                bg="white"
+                _hover={{ bg: '#F1F5F9', borderColor: '#64748B' }}
                 fontWeight="bold"
+                fontSize="sm"
+                px={6}
+                py={6}
+                borderRadius="md"
                 textTransform="uppercase"
                 onClick={() => setPdfUrl(null)}
               >
